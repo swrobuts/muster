@@ -33,17 +33,31 @@ const DataService = (() => {
   //  Öffentliche Query-Methoden
   // ----------------------------------------------------------
 
-  /** Alle Rohdaten (gefiltert) laden */
+  /** Alle Rohdaten (gefiltert) laden — paginiert, da Supabase max. 1000 Zeilen liefert */
   async function fetchFiltered({ year, segment, region } = {}) {
-    return _query(async (sb) => {
-      let q = sb.from('train').select(
-        'order_id, order_date, customer_id, customer_name, segment, region, sales'
-      );
-      if (year)    q = q.gte('order_date', `${year}-01-01`).lte('order_date', `${year}-12-31`);
-      if (segment) q = q.eq('segment', segment);
-      if (region)  q = q.eq('region', region);
-      return q;
-    });
+    const PAGE_SIZE = 1000;
+    let allData = [];
+    let from = 0;
+    let hasMore = true;
+
+    while (hasMore) {
+      const { data, error } = await (() => {
+        let q = _client.from('train').select(
+          'order_id, order_date, customer_id, customer_name, segment, region, sales'
+        );
+        if (year)    q = q.gte('order_date', `${year}-01-01`).lte('order_date', `${year}-12-31`);
+        if (segment) q = q.eq('segment', segment);
+        if (region)  q = q.eq('region', region);
+        return q.range(from, from + PAGE_SIZE - 1);
+      })();
+
+      if (error) throw new Error(`Supabase-Fehler: ${error.message}`);
+      allData = allData.concat(data);
+      hasMore = data.length === PAGE_SIZE;
+      from += PAGE_SIZE;
+    }
+
+    return allData;
   }
 
   /** Eindeutige Jahre auslesen */
