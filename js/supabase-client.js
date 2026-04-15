@@ -92,7 +92,7 @@ const DataService = (() => {
   function computeKPIs(rows) {
     const customers   = new Set(rows.map(r => r.customer_id));
     const orders      = new Set(rows.map(r => r.order_id));
-    const totalSales  = rows.reduce((s, r) => s + (r.sales || 0), 0);
+    const totalSales  = rows.reduce((s, r) => s + (parseFloat(r.sales) || 0), 0);
 
     return {
       totalCustomers:    customers.size,
@@ -149,7 +149,7 @@ const DataService = (() => {
     const map = {};
     rows.forEach(r => {
       if (!map[r.customer_id]) map[r.customer_id] = { name: r.customer_name, sales: 0 };
-      map[r.customer_id].sales += r.sales || 0;
+      map[r.customer_id].sales += parseFloat(r.sales) || 0;
     });
     return Object.values(map)
       .sort((a, b) => b.sales - a.sales)
