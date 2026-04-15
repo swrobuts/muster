@@ -180,6 +180,15 @@ body {
 .kpi-card__detail .positive { color: var(--color-positive); font-weight: 600; }
 .kpi-card__detail .negative { color: var(--color-negative); font-weight: 600; }
 
+.kpi-card__delta {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  margin-top: var(--space-xs);
+}
+.kpi-card__delta.positive { color: var(--color-positive); }
+.kpi-card__delta.negative { color: var(--color-negative); }
+.kpi-card__delta.neutral  { color: var(--color-text-muted); }
+
 /* ---- Chart Panels ---- */
 .chart-row {
   display: grid;
@@ -199,13 +208,15 @@ body {
 .chart-title {
   font-size: var(--font-size-base);
   font-weight: 700;
-  margin-bottom: var(--space-xs);
+  margin-bottom: 2px;
+  line-height: 1.35;
 }
 
 .chart-subtitle {
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);
   margin-bottom: var(--space-lg);
+  line-height: 1.4;
 }
 
 canvas {
