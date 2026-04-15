@@ -1,0 +1,242 @@
+/* ===================================================
+   Superstore Dashboard – Kundenanalyse
+   Design: Hichert SUCCESS / Bissantz-inspiriert
+   =================================================== */
+
+:root {
+  /* Farben */
+  --color-bg:          #f4f5f7;
+  --color-surface:     #ffffff;
+  --color-border:      #e2e5ea;
+  --color-text:        #1a1f36;
+  --color-text-muted:  #6b7280;
+  --color-text-label:  #8a919e;
+  --color-primary:     #4a6fa5;
+  --color-primary-light: #a8bed6;
+  --color-accent:      #c0392b;
+  --color-positive:    #2e7d32;
+  --color-negative:    #c0392b;
+
+  /* Typografie */
+  --font-body:    'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono:    'SF Mono', 'Fira Code', 'Consolas', monospace;
+  --font-size-xs:  0.75rem;
+  --font-size-sm:  0.8125rem;
+  --font-size-base: 0.9375rem;
+  --font-size-lg:  1.125rem;
+  --font-size-xl:  1.5rem;
+  --font-size-2xl: 2rem;
+
+  /* Abstände */
+  --space-xs:  0.25rem;
+  --space-sm:  0.5rem;
+  --space-md:  1rem;
+  --space-lg:  1.5rem;
+  --space-xl:  2rem;
+  --space-2xl: 3rem;
+
+  /* Schatten */
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* ---- Reset & Base ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Header ---- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: var(--space-xl) var(--space-2xl) var(--space-lg);
+  background: var(--color-surface);
+  border-bottom: 2px solid var(--color-text);
+}
+
+.header h1 {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.header__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-xs);
+}
+
+.header__filters {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.filter label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.filter select {
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  min-width: 100px;
+}
+
+.filter select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* ---- Loading / Error ---- */
+.loading {
+  text-align: center;
+  padding: var(--space-2xl);
+  font-size: var(--font-size-lg);
+  color: var(--color-text-muted);
+}
+
+.error {
+  margin: var(--space-xl) var(--space-2xl);
+  padding: var(--space-lg);
+  background: #fef2f2;
+  border-left: 4px solid var(--color-accent);
+  color: var(--color-accent);
+  font-size: var(--font-size-sm);
+  border-radius: 4px;
+}
+
+.hidden { display: none !important; }
+
+/* ---- Dashboard Layout ---- */
+.dashboard {
+  padding: var(--space-xl) var(--space-2xl) var(--space-2xl);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ---- KPI Cards ---- */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.kpi-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: var(--space-lg) var(--space-xl);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.kpi-card__label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-label);
+}
+
+.kpi-card__value {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.kpi-card__detail {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-xs);
+}
+
+.kpi-card__detail .positive { color: var(--color-positive); font-weight: 600; }
+.kpi-card__detail .negative { color: var(--color-negative); font-weight: 600; }
+
+/* ---- Chart Panels ---- */
+.chart-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.chart-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-card);
+}
+
+.chart-title {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.chart-subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-lg);
+}
+
+canvas {
+  width: 100% !important;
+  max-height: 320px;
+}
+
+/* ---- Insight Box ---- */
+.insight-box {
+  background: #fef9ed;
+  border-left: 4px solid #d4a017;
+  border-radius: 4px;
+  padding: var(--space-lg) var(--space-xl);
+  font-size: var(--font-size-sm);
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+.insight-box strong {
+  font-weight: 700;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .chart-row { grid-template-columns: 1fr; }
+  .header { flex-direction: column; align-items: flex-start; gap: var(--space-md); }
+  .dashboard { padding: var(--space-lg); }
+}
+
+@media (max-width: 600px) {
+  .kpi-row { grid-template-columns: 1fr; }
+  .header__filters { flex-wrap: wrap; }
+}
