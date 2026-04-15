@@ -1,0 +1,6 @@
+# Supabase-Credentials – NIEMALS committen!
+js/config.js
+
+# System
+.DS_Store
+Thumbs.db

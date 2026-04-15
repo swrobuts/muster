@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Superstore Sales – Kundenanalyse</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header__title">
+      <h1>Superstore Sales</h1>
+      <p class="header__subtitle">US-Markt · 2015–2018 · Kundenanalyse</p>
+    </div>
+    <div class="header__filters">
+      <div class="filter">
+        <label for="filter-year">Jahre</label>
+        <select id="filter-year"><option value="">Alle</option></select>
+      </div>
+      <div class="filter">
+        <label for="filter-segment">Segment</label>
+        <select id="filter-segment"><option value="">Alle</option></select>
+      </div>
+      <div class="filter">
+        <label for="filter-region">Region</label>
+        <select id="filter-region"><option value="">Alle</option></select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Loading / Error -->
+  <div id="loading" class="loading">Daten werden geladen …</div>
+  <div id="error" class="error hidden"></div>
+
+  <!-- Dashboard Content -->
+  <main id="dashboard" class="dashboard hidden">
+
+    <!-- KPI Cards -->
+    <section class="kpi-row">
+      <div class="kpi-card">
+        <span class="kpi-card__label">KUNDEN GESAMT</span>
+        <span class="kpi-card__value" id="kpi-total-customers">–</span>
+        <span class="kpi-card__detail" id="kpi-total-detail"></span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-card__label">UMSATZ PRO KUNDE</span>
+        <span class="kpi-card__value" id="kpi-rev-per-customer">–</span>
+        <span class="kpi-card__detail" id="kpi-rev-detail"></span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-card__label">BESTELLUNGEN PRO KUNDE</span>
+        <span class="kpi-card__value" id="kpi-orders-per-customer">–</span>
+        <span class="kpi-card__detail" id="kpi-orders-detail"></span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-card__label">NEUKUNDEN 2018</span>
+        <span class="kpi-card__value" id="kpi-new-customers">–</span>
+        <span class="kpi-card__detail" id="kpi-new-detail"></span>
+      </div>
+    </section>
+
+    <!-- Charts Row 1 -->
+    <section class="chart-row">
+      <div class="chart-panel chart-panel--wide">
+        <h2 class="chart-title">Kundenentwicklung nach Jahren</h2>
+        <p class="chart-subtitle">Eindeutige Kunden pro Jahr · 2015–2018</p>
+        <canvas id="chart-customers-year"></canvas>
+      </div>
+      <div class="chart-panel">
+        <h2 class="chart-title">Kunden nach Segment</h2>
+        <p class="chart-subtitle">Anteil Consumer · Corporate · Home Office</p>
+        <canvas id="chart-segment"></canvas>
+      </div>
+    </section>
+
+    <!-- Charts Row 2 -->
+    <section class="chart-row">
+      <div class="chart-panel chart-panel--wide">
+        <h2 class="chart-title">Top 10 Kunden nach Umsatz</h2>
+        <p class="chart-subtitle">Kumulierter Umsatz in $ · alle Jahre</p>
+        <canvas id="chart-top-customers"></canvas>
+      </div>
+      <div class="chart-panel">
+        <h2 class="chart-title">Kunden nach Region</h2>
+        <p class="chart-subtitle">Eindeutige Kunden pro Region</p>
+        <canvas id="chart-region"></canvas>
+      </div>
+    </section>
+
+    <!-- Insight Box -->
+    <section class="insight-box" id="insight-box"></section>
+  </main>
+
+  <!-- Scripts: Config → Data Layer → UI Layer -->
+  <script src="js/config.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
