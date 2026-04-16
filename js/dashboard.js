@@ -361,16 +361,27 @@ const Dashboard = (() => {
 
     const first = byYear[0], last = byYear[byYear.length - 1];
     const growthPct = ((last.count - first.count) / first.count * 100).toFixed(1);
-    const newLast = DataService.newCustomersInYear(allRows, parseInt(last.year));
-    const retPct = (((last.count - newLast) / last.count) * 100).toFixed(0);
+
+    // Neukunden pro Jahr (Erstbestellung)
+    const newPerYear = byYear.map(y => ({
+      year: y.year,
+      news: DataService.newCustomersInYear(allRows, parseInt(y.year))
+    }));
+    const firstNew = newPerYear[0].news;
+    const lastNew  = newPerYear[newPerYear.length - 1].news;
+    const newDrop  = ((lastNew - firstNew) / firstNew * 100).toFixed(0);
+    const retPct   = (((last.count - lastNew) / last.count) * 100).toFixed(0);
+
+    // Trend-String für Neukunden
+    const newTrend = newPerYear.map(y => `${y.year}: ${fmt.n(y.news)}`).join(' → ');
 
     box.innerHTML =
-      `<strong>Kundenentwicklung:</strong> Die aktive Kundenbasis wuchs von ` +
-      `${fmt.n(first.count)} (${first.year}) auf ${fmt.n(last.count)} (${last.year}) = <strong>+${growthPct} %</strong>. ` +
-      `Das Wachstum wird primär durch Bestandskunden getrieben: <strong>${retPct} %</strong> der Kunden in ${last.year} ` +
-      `hatten bereits zuvor bestellt, nur ${fmt.n(newLast)} waren Neukunden. ` +
-      `Im Durchschnitt generiert jeder Kunde <strong>${fmt.cur(kpis.revenuePerCustomer)}</strong> Umsatz ` +
-      `bei <strong>${fmt.dec(kpis.ordersPerCustomer)}</strong> Bestellungen.`;
+      `<strong>Achtung – Neukundenakquise bricht ein:</strong> Die aktive Kundenbasis wächst zwar von ` +
+      `${fmt.n(first.count)} (${first.year}) auf ${fmt.n(last.count)} (${last.year}) = <strong>+${growthPct} %</strong>, ` +
+      `doch die Neukundenzahl fällt drastisch (${newTrend}) — ein Rückgang um <strong>${newDrop} %</strong>. ` +
+      `In ${last.year} waren <strong>${retPct} %</strong> der aktiven Kunden Bestandskunden, nur ${fmt.n(lastNew)} neu. ` +
+      `Die wachsende Aktivzahl entsteht also durch steigende Aktivierung des bestehenden Stamms — nicht durch neue Kunden. ` +
+      `Ø Umsatz pro Kunde: <strong>${fmt.cur(kpis.revenuePerCustomer)}</strong> bei <strong>${fmt.dec(kpis.ordersPerCustomer)}</strong> Bestellungen.`;
   }
 
   // ==============================================================
